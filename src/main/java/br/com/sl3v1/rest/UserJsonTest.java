@@ -40,4 +40,17 @@ public class UserJsonTest {
         int id = JsonPath.from(response.asString()).getInt("id");
         assertEquals(1, id);
     }
+
+    @Test
+    public void deveVerificarSegundonivel(){
+        given()
+                .when()
+                .get("https://restapi.wcaquino.me/users/2")
+                .then()
+                .statusCode(200)
+                .body("name", containsString("Joaquina"))
+                .body("endereco.rua", is("Rua dos bobos"))
+                .body("endereco.numero",greaterThan(-1))
+        ;
+    }
 }
