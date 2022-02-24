@@ -69,4 +69,18 @@ public class OlaMundoTest {
 
     }
 
+    @Test
+    public void devoValidarOBody() {
+        given()
+        .when()
+                .get("http://restapi.wcaquino.me/ola")
+        .then()
+                .assertThat()
+                .statusCode(200)
+                .body(is(notNullValue()))
+                .body(containsStringIgnoringCase("mundo"))
+                .body(is("Ola Mundo!"))
+        ;
+    }
+
 }
