@@ -44,13 +44,41 @@ public class UserJsonTest {
     @Test
     public void deveVerificarSegundonivel(){
         given()
-                .when()
+        .when()
                 .get("https://restapi.wcaquino.me/users/2")
-                .then()
+        .then()
                 .statusCode(200)
                 .body("name", containsString("Joaquina"))
                 .body("endereco.rua", is("Rua dos bobos"))
                 .body("endereco.numero",greaterThan(-1))
+        ;
+    }
+
+    @Test
+    public void deveVerificarLista(){
+        given()
+        .when()
+                .get("https://restapi.wcaquino.me/users/3")
+        .then()
+                .statusCode(200)
+                .body("name", containsString("Ana"))
+                .body("filhos", hasSize(2))
+                .body("filhos[0].name", is("Zezinho"))
+                .body("filhos[1].name", is("Luizinho"))
+                .body("filhos.name", hasSize(2))
+                .body("filhos.name", hasItem("Zezinho"))
+                .body("filhos.name", hasItems("Zezinho", "Luizinho"))
+        ;
+    }
+
+    @Test
+    public void deveRetornarErroUsuarioInexistente(){
+        given()
+                .when()
+                .get("https://restapi.wcaquino.me/users/4")
+                .then()
+                .statusCode(404)
+                .body("error", is("Usuário inexistente"))
         ;
     }
 }
