@@ -5,6 +5,8 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static io.restassured.RestAssured.given;
 import static io.restassured.RestAssured.request;
 import static org.hamcrest.Matchers.*;
@@ -20,7 +22,7 @@ public class UserJsonTest {
                 .statusCode(200)
                 .body("id", is(1))
                 .body("name", containsString("Silva"))
-                .body("age", greaterThan(31))
+                .body("age", greaterThan(28))
         ;
     }
 
@@ -79,6 +81,22 @@ public class UserJsonTest {
                 .then()
                 .statusCode(404)
                 .body("error", is("Usuário inexistente"))
+        ;
+    }
+
+    @Test
+    public void deveVerificarListaRaiz(){
+        given()
+        .when()
+                .get("https://restapi.wcaquino.me/users")
+        .then()
+                .statusCode(200)
+                .body("$", hasSize(3))
+                .body("name", hasItems("João da Silva", "Maria Joaquina", "Ana Júlia"))
+                .body("endereco[1].rua", is("Rua dos bobos"))
+                .body("age[1]", greaterThanOrEqualTo(25))
+                .body("filhos.name", hasItems(Arrays.asList("Zezinho", "Luizinho")))
+                .body("salary", contains(1234.5678f, 2500, null));
         ;
     }
 }
