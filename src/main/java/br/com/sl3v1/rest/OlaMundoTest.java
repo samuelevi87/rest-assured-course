@@ -32,7 +32,7 @@ public class OlaMundoTest {
         ValidatableResponse validacao = response.then();
         validacao.statusCode(200);
 
-        get("http://restapi.wcaquino.me/ola").then().statusCode(201);
+        get("http://restapi.wcaquino.me/ola").then().statusCode(200);
 
         given()
                 //Aqui vão as pré condições: quando vamos fazer uma requisição podemos mandar dados pelo cabeçalho e pelo corpo da mensagem, é aqui que esses dados são alocados.
@@ -42,7 +42,7 @@ public class OlaMundoTest {
                 .then()
                 .assertThat()
                 //Aqui é onde acontecem as verificações, inclusive com o encadeamento de várias delas.
-                .statusCode(201);
+                .statusCode(200);
 
     }
 
